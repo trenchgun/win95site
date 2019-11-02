@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+	<meta charset = "UTF=8">
+	<title>C:/Computer/Facility/Personnel</title>
+	<style>
+		body {
+			margin: 10;
+			background-color: teal;
+			font-family: "MS Sans Serif", sans-serif;
+			font-size: 14px;
+			font-weight: 100;
+			font-smooth: never;
+		}
+		
+		button {
+			background-color: silver;
+			outline: none;
+			border-style: solid;
+			border-color: silver;
+			border-width: 2px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			transition-duration: 0;
+		}
+		button:hover {
+			outline: none;
+			border-style: inset;
+			border-color: white;
+			border-width: 2px;
+			
+		}
+		
+		#file-browser {
+			position: absolute;
+			background-color: silver;
+			top: 30%;
+			left: 30%;
+			transform: translate(-50%, -50%);
+			width: 500px;
+			height: 500px;
+			border-width: 2px;
+			border-style: outset;
+		}
+		
+		#window-header {
+			position: absolute;
+			background-image: linear-gradient(to right, navy, blue);
+			top: 1px;
+			left: 1px;
+			width: 498px;
+			height: 24px;
+		}
+		
+		#window-icon {
+			position: absolute;
+			top: 4px;
+			left: 4px;
+		}
+		
+		#window-title {
+			position: absolute;
+			top: -9px;
+			left: 24px;
+			
+		}
+		
+		#window-title-text {
+			color: white;
+			font-size: 14px;
+		}
+		
+		#window-control {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+		
+		#x-button {
+			position: absolute;
+			border-width: 2px;
+			border-style: outset;
+			top: 2px;
+			right: 2px;
+			width: 20px;
+			height: 20px;
+		}
+		
+		#x-button:hover {
+			outline: none;
+			border-style: outset;
+			border-color: silver;
+			border-width: 2px;
+		}
+		
+		#x-button:active {
+			outline: none;
+			border-style: inset;
+			border-color: silver;
+			border-width: 2px;
+		}
+		
+		#x-button-text {
+			position: absolute;
+			font-weight: bold;
+			font-size: 15px;
+			top: -15px;
+			left: 3px;
+		}
+		
+		#file-bar {
+			position: absolute;
+			font-weight: light;
+			font-size: 14px;
+			top: 28px;
+			left: 6px;
+		}
+		
+		.underline {
+			text-decoration: underline;
+		}
+		
+		#file-window {
+			position: absolute;
+			background-color: white;
+			top: 55px;
+			left: 2px;
+			width: 491px;
+			height: 410px;
+			border-width: 2px;
+			border-style: inset;
+		}
+		
+		#file-table-header-name {
+			position: absolute;
+			text-align: left;
+			background-color: silver;
+			border-width: 2px;
+			border-style: outset;
+			width: 250px;
+			left: 0;
+			top: 0;
+		}
+		
+		#file-table-header-size {
+			position: absolute;
+			text-align: right;
+			background-color: silver;
+			border-width: 2px;
+			border-style: outset;
+			width: 50px;
+			left: 254px;
+			top: 0;
+		}
+		
+		#file-table-header-type {
+			position: absolute;
+			text-align: left;
+			background-color: silver;
+			border-width: 2px;
+			border-style: outset;
+			width: 70px;
+			left: 308px;
+			top: 0;
+		}
+		
+		#file-table-header-modified {
+			position: absolute;
+			text-align: left;
+			background-color: silver;
+			border-width: 2px;
+			border-style: outset;
+			width: 106px;
+			left: 382px;
+			top: 0;
+		}
+		
+		#file-window-contents {
+			position: absolute;
+			top: 20px;
+			left: 0;
+		}
+		
+		#file-window-table {
+			vertical-align: middle;
+			border-width: 2px;
+		}
+		
+		.clickable-row:hover {
+			background-color: navy;
+			color: white;
+		}
+		
+		.td-name {
+			width: 250px;
+		}
+		
+		.td-size {
+			width: 50px;
+			text-align: right;
+		}
+		
+		.td-type {
+			width: 70px;
+		}
+		
+		.td-modified {
+			width: 106px;
+		}
+		
+		#footer {
+			position: absolute;
+			background-color: silver;
+			bottom: 2px;
+			left: 2px;
+			width: 491px;
+			height: 22px;
+			border-width: 2px;
+			border-style: inset;
+		}
+		
+		a:link 		{text-decoration: none; color: black;}
+		a:visited 	{text-decoration: none; color: black;}
+		a:hover 	{text-decoration: none; color: black; border-style: dotted; border-color: black; border-width: 1px;}
+		a:active 	{text-decoration: none; color: white; fill: navy; border-style: dotted; border-color: black; border-width: 1px;}
+	</style>
+	<script>	
+	</script>
+</head>
+<body>
+
+	<!-- this div actually contains the entire file browser window -->
+	<div id="file-browser">
+		<!--This sets up the header for the file browser-->
+		<div id="window-header">
+			<div id="window-icon">
+				<!--The top left icon-->
+				<img src="../icons/my-computer.png" height="16px"></img>
+			</div>
+			
+			<div id="window-title">
+				<!--The window title-->
+				<h2 id="window-title-text">C:/Computer/Facility/Personnel</h2>
+			</div>
+			
+			<div id="window-control">
+				<!--Makes the X button in the top right-->
+				<button id="x-button"><p id="x-button-text">X</p></button>
+			</div>
+		</div>
+	
+		<!-- the file, edit, etc bar. Shows interaction via hover animation -->
+		<div id="file-bar">
+			<table>
+				<tr>
+					<td><button><span class="underline">F</span>ile</button></td>
+					<td><button><span class="underline">E</span>dit</button></td>
+					<td><button><span class="underline">V</span>iew</button></td>
+					<td><button><span class="underline">G</span>o</button></td>
+					<td><button><span class="underline">H</span>elp</button></td>
+				</tr>
+			</table>
+		</div>
+		
+		<!-- the actual file browser window -->
+		<div id="file-window">
+			<!-- this is the header of the file window -->
+			<div id="file-table-header-name"> Name </div>
+			<div id="file-table-header-size"> Size </div>
+			<div id="file-table-header-type"> Type</div>
+			<div id="file-table-header-modified"> Modified</div>
+			<!-- here we get to the actual meat of the file window -->
+			
+			<div id="file-window-contents">
+			
+			
+				<table id="file-window-table">
+					<tr class='clickable-row' onclick="window.location='../index-facility.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/computers.png" height="12px">
+						...
+						</td>
+						<td width="50" class="td-size">-</td>
+						<td width="70" class="td-type">-</td>
+						<td width="106" class="td-modified">-</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-dobromil-kubik.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Dobromil-KUBIK
+						</td>
+						<td width="50" class="td-size">475 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/30/2019</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-jakob-peterka.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Jakob-PETERKA
+						</td>
+						<td width="50" class="td-size">211 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/16/2019</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-jiri-skopek.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Jiri-SKOPEK
+						</td>
+						<td width="50" class="td-size">302 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/14/2019</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-ladislav-lebeda.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Ladislav-LEBEDA
+						</td>
+						<td width="50" class="td-size">299 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/13/2019</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-lev-bulba.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Lev-BULBA
+						</td>
+						<td width="50" class="td-size">223 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/21/2019</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-marian-vrzal.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Marian-VRZAL
+						</td>
+						<td width="50" class="td-size">257 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/20/2019</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-matous-smolik.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Matous-SMOLIK
+						</td>
+						<td width="50" class="td-size">253 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/20/2019</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-michal-svoboda.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Michal-SVOBODA
+						</td>
+						<td width="50" class="td-size">256 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/24/2019</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-petr-pernica.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Petr-PERNICA
+						</td>
+						<td width="50" class="td-size">282 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/18/2019</td>
+					</tr>
+					<tr class='clickable-row' onclick="window.location='personnel/id-stanislav-kana.html';" >
+						<td width="250" class="td-name">
+						<img src="../icons/text-file.png" height="12px">
+						ID-Stanislav-KANA
+						</td>
+						<td width="50" class="td-size">279 KB</td>
+						<td width="70" class="td-type">PDF</td>
+						<td width="106" class="td-modified">09/14/2019</td>
+					</tr>
+				</table>
+				
+			</div>
+		</div>
+		
+		<!-- footer for the window 
+		<div id="footer">
+		
+		</div>
+		-->
+	</div>
+	
+</body>
+</html>
